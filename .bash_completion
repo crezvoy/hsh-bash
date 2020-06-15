@@ -1,0 +1,27 @@
+
+[ -e "${PREFIX-}/usr/share/bash-completion/bash_completion" ] \
+    && source "${PREFIX-}/usr/share/bash-completion/bash_completion"
+
+if [ -e "${PREFIX-}/usr/etc/bash_completion.d" ]
+then
+    for entry in $(ls -1 "${PREFIX-}/usr/etc/bash_completion.d")
+    do
+        source "${PREFIX-}/usr/etc/bash_completion.d/$entry"
+    done
+fi
+
+if [ -e "${PREFIX-}/etc/bash_completion.d" ]
+then
+    for entry in $(ls -1 "${PREFIX-}/etc/bash_completion.d")
+    do
+        source "${PREFIX-}/etc/bash_completion.d/$entry"
+    done
+fi
+
+if [ -e "$HOME/.local/share/bash_completion/completions" ]
+then
+    for entry in $(ls -1 "$HOME/.local/share/bash_completion/completions")
+    do
+        source "$HOME/.local/share/bash_completion/completions/$entry"
+    done
+fi
