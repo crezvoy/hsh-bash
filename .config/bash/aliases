@@ -1,0 +1,113 @@
+#!/bin/bash
+
+alias dfh="df -Tha --total"
+alias duh="du -ach | sort -h"
+alias LS_COLOR="--color=auto"
+alias ll='ls $LS_COLOR -alF'
+alias la='ls $LS_COLOR -A'
+alias lla='ls $LS_COLOR -lA'
+alias l='ls $LS_COLOR -CF'
+#alias dir='dir --color=auto'
+#alias vdir='vdir --color=auto'
+alias ls="ls $LS_COLOR"
+alias grep="grep $LS_COLOR"
+alias fgrep="fgrep $LS_COLOR"
+alias egrep="egrep $LS_COLOR"
+
+function list_var () {
+    if [ $# -lt 1 ] || [ $# -gt 1 ]; then
+        echo "usage list_var <var_name>"
+    fi
+    local IFS=$'\n'
+    for p in $(echo "${!1}" | tr ":" $'\n'); do
+        echo "${p}"
+    done
+}
+
+function clean_var () {
+    local tmp=""
+    local i=0
+    local items;
+    items="$(echo "${!1}" | tr ":" $'\n')"
+    local IFS=$'\n'
+    for p in $items; do
+      if [ -z "$tmp" ]; then
+        tmp="$p"
+      else
+        local skip=0;
+        for ex in $(echo "$items" | head -n "$i"); do
+          if [ "$p" = "$ex" ]; then
+            skip=1
+            break
+          fi
+        done
+        if [ "$skip" != "0" ]; then
+          tmp="$tmp:$p"
+        fi
+      fi
+    done
+    export $1="$tmp"
+}
+
+function rm_var () {
+    if [ $# -lt 2 ] || [ $# -gt 2 ]; then
+        echo "usage list_var <var_name> <value>"
+    fi
+    local new_var=""
+    local IFS=$'\n'
+    for p in $(echo "${!1}" | tr ":" $'\n'); do
+      if [ "$p" = "$2" ]; then
+        continue
+      fi
+      if [ -z "$new_var" ]; then
+        new_var="$p"
+      else
+        new_var="${new_var}:$p"
+      fi
+    done
+    export $1="$new_var"
+}
+
+function append_var () {
+  if [ $# -lt 2 ] || [ $# -gt 2 ]; then
+    echo "usage list_var <var_name> <value>"
+  fi
+  local tmp=""
+  if [ -z "${!1}" ]; then
+    tmp="$2"
+  else
+    tmp="${!1}:$2"
+  fi
+  export $1="$tmp"
+}
+
+function prepend_var () {
+  if [ $# -lt 2 ] || [ $# -gt 2 ]; then
+    echo "usage list_var <var_name> <value>"
+  fi
+  local tmp=""
+  if [ -z "${!1}" ]; then
+    tmp="$2"
+  else
+    tmp="$2:${!1}"
+  fi
+  export $1="$tmp"
+}
+#!/bin/bash
+
+alias dfh="df -Tha --total"
+
+alias duh="du -ach | sort -h"
+
+
+alias LS_COLOR="--color=auto"
+alias ll='ls $LS_COLOR -alF'
+alias la='ls $LS_COLOR -A'
+alias lla='ls $LS_COLOR -lA'
+alias l='ls $LS_COLOR -CF'
+#alias dir='dir --color=auto'
+#alias vdir='vdir --color=auto'
+alias ls="ls $LS_COLOR"
+alias grep="grep $LS_COLOR"
+alias fgrep="fgrep $LS_COLOR"
+alias egrep="egrep $LS_COLOR"

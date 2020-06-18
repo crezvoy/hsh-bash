@@ -5,11 +5,11 @@
 #sometimes $SSH_AUTH_SOCK gets overwritten during bash startup
 [ -e "$HOME/.profile" ] && source "$HOME/.profile"
 
-if [ -d "$HOME/.config/bash.d" ]
+if [ -d "$HOME/.config/bash" ]
 then
-    for entry in $(ls -1 "$HOME/.config/bash.d")
+    for entry in $(ls -1 "$HOME/.config/bash")
     do
-        source "$HOME/.config/bash.d/$entry"
+        source "$HOME/.config/bash/$entry"
     done
 fi
 

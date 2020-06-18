@@ -1,0 +1,59 @@
+#! /bin/env bash
+
+MARK_DIR="$HOME/.local/share/bookmarks"
+export MARK_DIR
+
+umd () {
+    local dname
+    [[ $# = 0  ]] && return 1
+    dname="$1"; shift
+    [ -L "$MARK_DIR/$dname"  ] && rm "$MARK_DIR/$dname"
+
+}
+
+md () {
+    local curdir
+    local dname
+    [ -d "$MARK_DIR"  ] || mkdir -p "$MARK_DIR"
+    curdir="$(pwd)"
+    if [[ $# = 0  ]]; then
+        dname="$(basename "$curdir")"
+    else
+        dname="$1"; shift
+    fi
+    [ -L "$MARK_DIR/$dname"  ] && rm "$MARK_DIR/$dname"
+    ln -s "$curdir" "$MARK_DIR/$dname"
+}
+
+jd () {
+    [ -d "$MARK_DIR"  ] || mkdir -p "$MARK_DIR"
+    if [[ $# != 1  ]]; then
+        cat <<-EOF
+		usage: jump <bookmark>
+		EOF
+        exit 1
+    fi
+
+    local dest="$1"; shift
+
+    if [[ ! -L "$MARK_DIR/$dest"  ]]; then
+        echo "unknown bookmark '$dest'" >&2
+    fi
+
+
+    cd "$(readlink "$MARK_DIR/$dest")" || cat >&2 <<-EOF
+	failed to switch to bookmark '$dest', if the destination does not exists
+	anymore use 'umd "$dest"' to remove that bookmark
+	EOF
+}
+
+
+_jd () {
+    if [ "$COMP_CWORD" = "1"  ]; then
+        local cur="${COMP_WORDS[$COMP_CWORD]}"
+        COMPREPLY=( $(compgen -W "$(ls "$MARK_DIR")" -- "$cur")  )
+    fi
+}
+
+complete -F _jd jd
+complete -F _jd umd

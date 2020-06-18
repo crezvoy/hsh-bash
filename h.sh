@@ -11,7 +11,7 @@
 
 case "$HSH_ACTION" in
     clone)
-        [ -e "$HSH_ROOT/.config/bash.d" ] || mkdir -p "$HSH_ROOT/.config/bash.d"
+        [ -e "$HSH_ROOT/.config/bash" ] || mkdir -p "$HSH_ROOT/.config/bash"
         [ -e "$HSH_ROOT/.local/share/bash-completion/completions" ] || mkdir -p "$HSH_ROOT/.local/share/bash-completion/completions"
         ;;
 esac
