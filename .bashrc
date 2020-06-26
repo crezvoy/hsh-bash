@@ -13,6 +13,10 @@ then
     done
 fi
 
+# Use bash-completion, if available
+[[ -f "${PREFIX-}/usr/share/bash-completion/bash_completion" ]] && \
+    . "${PREFIX-}/usr/share/bash-completion/bash_completion"
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize

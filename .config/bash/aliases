@@ -1,5 +1,8 @@
 #!/bin/bash
 
+alias e="$EDITOR"
+alias ge="$VISUAL"
+
 alias dfh="df -Tha --total"
 alias duh="du -ach | sort -h"
 alias LS_COLOR="--color=auto"
