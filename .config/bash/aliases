@@ -5,7 +5,7 @@ alias ge="$VISUAL"
 
 alias dfh="df -Tha --total"
 alias duh="du -ach | sort -h"
-alias LS_COLOR="--color=auto"
+LS_COLOR="--color=auto"
 alias ll='ls $LS_COLOR -alF'
 alias la='ls $LS_COLOR -A'
 alias lla='ls $LS_COLOR -lA'
